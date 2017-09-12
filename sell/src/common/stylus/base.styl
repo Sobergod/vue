@@ -2,6 +2,10 @@
 边框针对不同设备进行缩放
 */
 //针对最小dpi为1.5做配置
+body,html
+  line-height 1
+  font-weight 200
+  font-family 'Helvetica-Light', 'STHitiSC-Light', 'PingFang SC', arial, sans-serif
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-device-pixel-ratio: 1.5)
   .border-1px
     &::after
