@@ -12,7 +12,7 @@
               <div class="discription">
                   {{seller.description}}/{{seller.deliveryTime}}分钟送达 
               </div>
-          <div v-if="seller.supports" class="support-count">
+          <div v-if="seller.supports" class="support-count" @click="showDetail">
               <span class="count">{{seller.supports.length}}个</span>
               <i class="icon-keyboard_arrow_right"></i>
           </div>
@@ -30,20 +30,47 @@
       <div class="background">
           <img :src="seller.avatar" alt=""  width="100%" height="100%">
       </div>
+      <div v-show="detailShow" class="detail">
+        <div class="detail-wrapper clearfix">
+          <div class="detail-main">
+            <h1 class="name">{{seller.name}}</h1>
+            <div class="star-wrapper">
+              <star :size="48" :score="seller.score"></star>
+            </div>
+          </div>
+        </div>
+        <div class="detail-close">
+          <i class="icon-close"  @click="showDetail"></i>
+        </div>
+      </div>
   </div>
 </template>
 <script type="text/ecmascript-6">
-    export default{
-      props: {
-        seller:
-        {
-          type: Object
-        }
-      },
-      created () {
-        this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
-      }
+import star from '../star/star.vue'
+export default{
+  props: {
+    seller:
+    {
+      type: Object
     }
+  },
+  data () {
+    return {
+      detailShow: false
+    }
+  },
+  methods: {
+    showDetail () {
+      this.detailShow = !this.detailShow
+    }
+  },
+  created () {
+    this.classMap = ['decrease', 'discount', 'special', 'invoice', 'guarantee']
+  },
+  components: {
+    star
+  }
+}
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
 @import "../../common/stylus/mixin"
@@ -53,18 +80,18 @@
     background: rgba(7,17,27,.5)
     overflow: hidden
     .content-wrapper
-     position: relative
-     padding: 24px 12px 18px 24px
-     font-size: 0
-     .avatar
-       display: inline-block
-       vertical-align: top
-       img
-         border-radius: 2px
-     .content
-       display: inline-block
-       margin-left: 16px
-       font-size: 14px 
+       position: relative
+       padding: 24px 12px 18px 24px
+       font-size: 0
+       .avatar
+         display: inline-block
+         vertical-align: top
+         img
+           border-radius: 2px
+       .content
+         display: inline-block
+         margin-left: 16px
+         font-size: 14px 
        .title
          margin: 2px 0 8px 0
          .brand
@@ -80,10 +107,10 @@
            font-size: 16px
            line-height: 18px
            font-weight: bold
-        .discription
-          margin-bottom: 10px
-          line-height: 12px
-          font-size: 12px
+         .discription
+           margin-bottom: 10px
+           line-height: 12px
+           font-size: 12px
         .support
           .icon
             display: inline-block   
@@ -155,4 +182,36 @@
       width: 100%
       z-index: -1
       filter: blur(10px)
+    .detail
+      position: fixed
+      z-index: 100
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      overflow: auto
+      background: rgba(7,17,27,.8)
+      .detail-wrapper
+        min-height: 100%
+        width: 100%
+        .detail-main 
+          margin-top: 64px
+          padding-bottom: 64px
+          .name
+            line-height: 16px
+            text-align: center
+            font-size: 16px
+            font-weight: 700
+          .star-wrapper
+            maargin-top: 18px
+            padding: 2px 0
+            text-align: center
+          //sticky footer
+      .detail-close
+        position: relative
+        width: 32px
+        height: 32px
+        margin: -64px auto 0 auto // 由于detail 设置为100% 所以会挤掉图标将top设为负值
+        clear: both
+        font-size: 32px
 </style>

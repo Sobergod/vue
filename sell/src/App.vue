@@ -28,6 +28,7 @@
         }
       },
       created () {
+        // 获取数据 vue-resource提供的方法
         this.$http.get('/api/seller').then((response) => {
           response = response.body
           if (response.errno === ERR_OK) {
